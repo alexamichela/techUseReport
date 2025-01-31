@@ -10,5 +10,6 @@ Through this project, I was interested in learning how my media consumption habi
 * How long do I spend scrolling on some media platform?
 * How many times do I check/look at my email?*
 * What kind of content do I consume on YouTube and the New York Times?
+
 **Originally, I did not count the number of times I checked my email, but on the third day, I realized that I had been substituting my usual media content with my Gmail inbox.*
 
