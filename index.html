@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>My Tech Use Report</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                min-height: 400vh;
+                font-family: Arial, sans-serif;
+            }
+
+            header {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                background-color: #333;
+                padding: 10px 0;
+                z-index: 1000;
+            }
+
+            nav ul {
+                list-style-type: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+                justify-content: center;
+            }
+
+            nav ul li {
+                margin: 0 15px;
+            }
+
+            nav ul li a {
+                color: white;
+                text-decoration: none;
+                font-size: 18px;
+            }
+            
+            .note {
+                font-size: 0.9rem;
+                text-align: center;
+                margin: 10px 0;
+            }
+            
+            .introduction li {
+                margin-left: 40px;
+                font-style: italic;
+                color: #444;
+                margin-bottom: 10px;
+            }
+
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding-top: 60px;
+            }
+
+            .section {
+                padding: 40px 20px;
+                margin: 20px 0;
+            }
+
+            .introduction, .conclusion {
+                background-color: #f5f5f5;
+                border-radius: 8px;
+                margin: 20px auto;
+                padding: 30px;
+                max-width: 800px;
+            }
+            
+            .citations .appendix {
+                padding: 30px;
+                margin: 20px auto;
+                max-width: 1000px;
+            }
+
+            .visualization-section {
+                height: 300vh;
+                position: relative;
+            }
+
+            .visualization-title {
+                position: fixed;
+                top: 100px;
+                left: 50%;
+                transform: translateX(-50%);
+                font-size: 28px;
+                font-weight: bold;
+                opacity: 0;
+                transition: opacity 0.5s ease;
+                text-align: center;
+            }
+
+            h1 {
+                text-align: center;
+                margin: 40px 0;
+                font-size: 2.5em;
+                color: #333;
+            }
+            
+            .subtitle {
+                text-align: center;
+                font-size: 1.5rem;
+                font-weight: normal;
+                color: #666;
+                margin-top: -10px;
+                margin-bottom: 30px;
+            }
+
+            h2 {
+                margin-bottom: 20px;
+                color: #444;
+            }
+            
+            .figure {
+                margin: 20px auto;
+            }
+            
+            /* Floating tech emojis */
+            .introduction {
+                position: relative;
+            }
+
+            .floating-emoji {
+                position: absolute;
+                font-size: 40px;
+                animation: float 3s infinite ease-in-out;
+            }
+
+            .emoji-left {
+                left: -40px;
+            }
+
+            .emoji-right {
+                right: -40px;
+            }
+
+            @keyframes float {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(-10px); }
+            }
+            
+            /* Arrow in bottom left */
+            .arrow-container {
+                position: fixed;
+                bottom: 50px;
+                left: 50px;
+                z-index: 100;
+            }
+
+            .arrow-container img {
+                width: 40px;
+                height: 40px;
+                opacity: 0.7;
+                transition: opacity 0.3s;
+            }
+
+            .arrow-container img:hover {
+                opacity: 1;
+            }
+
+            .circles-container {
+                position: sticky;
+                top: 150px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 40px;
+                height: 300px;
+            }
+
+            .circle {
+                width: 150px;
+                height: 150px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-weight: bold;
+                transition: all 0.5s ease;
+                transform-origin: center;
+                position: relative;
+                text-align: center;
+                padding: 10px;
+            }
+
+            .youtube { 
+                background-color: #FF0000;
+            }
+            .facebook { 
+                background-color: #1877F2;
+                opacity: 1;
+                transition: all 0.5s ease;
+            }
+            .instagram { 
+                background-color: #E4405F;
+                opacity: 1;
+                transition: all 0.5s ease;
+            }
+            .nytimes { 
+                background-color: #000000;
+            }
+
+            .circle.youtube.clickable,
+            .circle.nytimes.clickable {
+                transition: all 0.3s ease;
+            }
+
+            .circle.youtube.clickable:hover,
+            .circle.nytimes.clickable:hover {
+                transform: scale(1.1) translateX(160px) !important;
+                cursor: pointer;
+            }
+
+            .circle.nytimes.clickable:hover {
+                transform: scale(1.1) translateX(-160px) !important;
+            }
+
+            .question-text {
+                position: fixed;
+                right: 10%;
+                bottom: 20%;
+                transform: none;
+                opacity: 0;
+                transition: opacity 0.5s ease;
+                font-size: 24px;
+                font-weight: bold;
+            }
+
+            .size-explanation {
+                position: fixed;
+                left: 50%;
+                bottom: 20%;
+                transform: translateX(-50%);
+                opacity: 0;
+                transition: opacity 0.5s ease;
+                text-align: center;
+                font-size: 18px;
+                max-width: 600px;
+            }
+            
+            .part1-explanation {
+                flex: 1;
+                padding: 20px;
+                background: #f5f5f5;
+                border-radius: 8px;
+                font-size: 0.95em;
+                line-height: 1.25;
+                max-width: 280px;
+                align-self: center;
+                position: relative;
+                left: 980px;
+            }
+
+            .modal {
+                display: none;
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background-color: white;
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 0 20px rgba(0,0,0,0.2);
+                z-index: 1001;
+                min-width: 300px;
+                min-height: 200px;
+            }
+            
+            .modal-image img {
+                display: block;
+                margin: 0 auto;
+                max-width: 100%;
+                height: auto;
+            }
+
+            .modal-title {
+                font-size: 24px;
+                margin-bottom: 15px;
+            }
+
+            .overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: rgba(0,0,0,0.5);
+                z-index: 1000;
+            }
+            
+            .journal-title {
+                font-size: 28px;
+                font-weight: bold;
+                text-align: center;
+            }
+            
+            .journal-entries {
+                border-radius: 8px;
+                margin: 20px auto;
+                padding: 30px;
+                max-width: 800px;
+            }
+            
+            .quote-section {
+                border-left: 4px solid #666;
+                padding-left: 20px;
+                margin: 20px 0;
+                font-style: italic;
+                transition: border-left-color 0.3s;
+            }
+
+            .quote-section:hover {
+                box-shadow: -4px 0 8px -4px #666;
+            }
+
+            .citations, .appendix {
+              margin-top: 40px;
+              padding: 40px;
+              border-radius: 8px;
+            }
+            
+            footer {
+                position: fixed;
+                bottom: 0;
+                width: 100%;
+                background-color: #333;
+                color: white;
+                text-align: center;
+                padding: 10px 0;
+                font-size: 14px;
+            }
+
+        </style>
+    </head>
+    <body>
+        <header>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../project1/index.html">Project 1</a></li>
+                    <li><a href="index.html">Project 2</a></li>
+                    <li><a href="../project3/index.html">Project 3</a></li>
+                </ul>
+            </nav>
+        </header>
+        <div class="container">
+            <h1>My Tech Use Report</h1>
+            <h2 class='subtitle'>Examining The Effects of Controlled Media Consumption</h2>
+            <section class="introduction">
+                <h2>Introduction</h2>
+                <p>In this project, I will examine my own use of technology both inside and outside of the classroom. In 
+                    Vallor’s chapter on “Cultivating the Foundations of Technomoral Virtue,” she speaks on the importance 
+                    of reflective self-examination. By developing a critical eye for one’s actions and attitudes, one can 
+                    strengthen their abilities for self-control and refrain from mindless self-indulgence. Vallor describes 
+                    the development of this reflective self-examination in stages.  Self-indulgence or incontinence is 
+                    when one is unaware that their desires are bad and therefore do not move to resist them. It is with 
+                    knowledge that this evolves into continence, where one is aware of the desires that need controlling. 
+                    Over time, one can develop temperance, in which one is only moved by truly good desires (Vallor, 2016, p. 85-86).</p>
+                <br><p>Through this project, I was interested in learning how my media consumption habits have changed since 
+                    I have deleted the Instagram and YouTube apps from my phone. I had noticed that in the first few days 
+                    post-deletion, I would instinctively pick up my phone and navigate to where my Instagram or YouTube 
+                    apps were located on my home screen. I was curious if the remnants of this “media addiction” would 
+                    persist over time or if I would no longer have this urge to scroll or find another recipient for my 
+                    attention. Through quantitative methods and digital traces, I will collect data on the following questions:</p>
+                <br><ul>
+                    <li>How many times do I find myself trying to find something to <b>scroll</b> through when I’m on a device?</li>
+                    <li>How many times do I <b>pick up my phone</b> to waste time (not looking at an email notification/without specific intention)?</li>
+                    <li>How long do I <b>spend scrolling</b> on some media platform?</li>
+                    <li>How many times do I check/look at my <b>email</b>?*</li>
+                    <li>What <b>kind of content</b> do I consume on YouTube and the New York Times?</li>
+                </ul>
+                <p class='note'><i>*Originally, I did not count the number of times I checked my email, but on the third day, I realized that I had been substituting my usual media content with my Gmail inbox.</i></p>
+                <img src='images/manual_data.png' alt='A screenshot of a Google Sheets titled Project2Data Collection. The columns are Day, Time, activity, Tally, and Comments. The Activity column values are from a dropdown for scrolling, time scrolling, pick up phone, and check gmail. The tally represents either the tally of how many times I did the activity or the number of minutes I spent scrolling. The comments allowed me to note what media platform was involved in that activity.' height='375' class='figure'>
+                <img src='images/task_reminder.jpg' alt='A screenshot of two days in Google Calendar with tasks called data collection at every 1.5 hour intervals in the day.' height='375' class='figure'>
+                <p class='note'><i>Figure 1: Screenshot of Manual Data Collection Tools</i></p>
+                <p><br>To collect the data on the first four questions, I entered a week-long period of self-surveillance 
+                    from September 25, 2024 to October 2, 2024. With the assistance of a Google Calendar task, every 1.5 
+                    hours during my waking hours, I noted the tallies or minutes for the four questions (Figure 1).</p>
+                <p><br>I was curious to analyze the type of content I consumed on YouTube and the New York Times because 
+                    I predicted that I used these platforms to take a break from any stressful work and therefore consumed 
+                    only entertaining and relaxing content. To collect my YouTube watch history, I accessed my digital 
+                    trace data through Google Takeout. Because The New York Times only shows you your read history on the 
+                    mobile app, I had to seek other ways to get my browsing history. Through ChatGPT-generated code that 
+                    was prompted by Prof. Mustafaraj, I filtered my Chrome browsing history for New York Times websites. 
+                    In order to categorize the raw data from both sources, I enlisted the Gemini API, with help from 
+                    Johanna Lee, in order to use a natural language processing approach to categorize the videos or websites 
+                    into set categories. With both my manual collection and digital trace data prepared, I could then create 
+                    visualizations showing my results.</p>
+                <p><br>In addition to these quantitative research methods, I kept a personal journal to reflect on each 
+                    day of my self-surveillance. From these entries, I hoped to gain insight into the numbers of that day, 
+                    understanding the emotional context of my scrolling decisions.</p>
+            </section>
+
+            <section class="visualization-section">
+                <div class="visualization-title">Scrolling Time: Media Platforms</div>
+                <div class="circles-container">
+                    <div class="circle youtube">YouTube</div>
+                    <div class="circle facebook">Facebook</div>
+                    <div class="circle instagram">Instagram</div>
+                    <div class="circle nytimes">The New York Times</div>
+                </div>
+                <div class="question-text">What type of content do I like to consume?<br><div class='note'>(click on circles)</div></div>
+                <div class="size-explanation">
+                    <p class='caption'>Circle sizes represent time spent: YouTube (66.48%), Facebook (5.26%), Instagram (37.67%), New York Times (21.61%)</p>
+                </div >
+                <div class='part1-explanation'>
+                    <p>From examining the media that I like to consume during my “scrolling time,” we can see that I spent the largest amount of time on YouTube. In fact, I spent the majority of my “scrolling time” on YouTube. Because of the way I timed this data to be the amount of time I was on this platform, I could understand that I spent the most time on YouTube because of its longer-form content compared to Instagram or Facebook. Even though doomscrolling on the other platforms was very possible and could have led to large amounts of time spent consuming content, it did not impact me during my self-surveillance. After YouTube, I spent the most amount of time on Instagram and The New York Times, which are some of my favorite platforms in order to catch up with friends, watch content from my favorite creators, play some mind-stimulating games, or read about news. I spent the least amount of time on Facebook, the platform which I only check when I want to scroll and check the different Wellesley Facebook groups I am a part of. After understanding the platform breakdown of my “scrolling time,” we can now look towards gleaning some information about the type of content I like to consume from YouTube and New York Times specifically.</p>
+                </div>
+            </section>
+
+            <section class="journal-entries">
+                <img src='graphs/manualData.png' alt='An abstract visualization of the manual data collection: scrolling (urges to scroll), gmail pickups, and time scrolling. There are seven black parallel horizontal lines representing the seven days of self-surveillance. There are 12 invisible notches on each line to represent the 12 time intervals of data collection. Pink concentric circles indicate the number of scrolling urges. Blue radial lines indicate the number of Gmail pickups. Orange waves indicate the number of minutes scrolling on a media platform. Stacked orange waves indicate separate scrolling activities within a time interrval. Overall, we see a lot of blue radial lines (gmail pickups) consistently throughout the day. Pink concentric circles (scrolling urges) are more rare but increased at the very end of the last day. Orange waves were concentrated at random times throughout the day for most days.' width=750>
+                <p class='note'><i>Figure 2: Manual Data Visualization Art (Inspired by the Dear Data Project)</i></p>
+                <h2 class=journal-title>Journal Entries</h2>
+                <p>After analyzing the themes of my journal entries, I found that the main indicator of how much time I 
+                    spent consuming media or how many times I wanted to do so was my perception of how much “free time” 
+                    I had. In every entry, I noted whether or not I was very busy or free that day and how it provided 
+                    context to my data.</p>
+                <br><b>Free Time</b>
+                <div class="quote-section">I have finally felt less stressed and anxious after a difficult two weeks, so 
+                    with this relief of my worries, I felt more relaxed and able to get restless and bored during long 
+                    stretches of free time to work. This is definitely reflected in how long and often I wanted to find 
+                    media to consume. - October 1, 2024</div>
+                <b>Busy</b>
+                <div class="quote-section">Because I feel much more pressed for time these days with my academics, I am 
+                    constantly thinking about what task I can accomplish next and don’t think about the break I could get 
+                    from scrolling. - September 30, 2024</div>
+                <p>Looking at the data comparing how many times I tried to find something to scroll through and how long 
+                    I actually spent scrolling (Figure 2), I did not always scroll when I had the urge. In my journal entries, I 
+                    wrote about how the self-surveillance nature of the data collection might have influenced my media 
+                    consumption habits. Even on the first day, I noted that I felt conscious about my time spent scrolling: 
+                    “I definitely was conscious about the time I spent doing these things, so I felt that might have 
+                    contributed to the single digit durations for these activities.” Because of this newfound intentionality, 
+                    I learned to notice how long I was scrolling or even preemptively stopped myself from scrolling when 
+                    I felt an inclination:</p>
+                <div class="quote-section">I feel much more intentional when I have “scrolling time” and definitely 
+                    notice less of an inclination to scroll during the middle of the day. - September 30, 2024</div>
+                <p>Beyond feelings of intentionality and consciousness, the self-surveillance also allowed me to identify 
+                    ways that I already or will start attempting to control my media consumption.</p>
+                <div class="quote-section">Because I don’t have these apps on my phone, I noticed that I mostly did these 
+                    things on my laptop on the browser. - September 26, 2024</div>
+                <div class="quote-section">I have now noticed that for the past two days, instead of resorting to social 
+                    media or some other form of content when I need to take a break, I am checking my email. - September 
+                    27, 2024</div>
+                <div class="quote-section">I think it helped that I closed the tabs for my gmail accounts on my laptop, 
+                    so I wouldn’t just see the notification change when I got new emails. - September 29, 2024</div>
+            </section>
+            
+            <section class="conclusion">
+                <h2>Conclusion</h2>
+                <p>In this research process, I have found that tackling four questions through manual data collection was 
+                    challenging. Over time, I found that I was not cognizant of when I was picking up my phone for a break. 
+                    Therefore, the data collected had a lot of human error, and I did not include phone pickup data in any 
+                    visualizations. Overall, the manual data collection process allowed for a lot of human error, as it relied 
+                    on my own surveillance of myself. Because of its self-inflicted nature, the data collection was ultimately 
+                    very biased and might not have reflected a true week in my life. As I noted in my journals, knowing 
+                    that I had to write down my media use, I would stop myself from scrolling when I felt the urge when 
+                    I would not otherwise. The digital trace data also had its own limitations. The browsing and watch 
+                    history were limited to the account that I requested from. Therefore, there might have been a few 
+                    videos and articles that I had assessed on a different account or profile that were not included in 
+                    the dataset. During the analysis process, my reliance on Gemini to categorize the content made it 
+                    very susceptible to the limitations of large language models. Some content might have been mis-classified.
+                    Despite all of these limitations, the overall study design of data collection every 1.5 hours with 
+                    the reminder of a Google Calendar task worked really well to remind me to tally data. Additionally, 
+                    the large language models were a great resource to implement my visions for the data visualizations.
+                    I hoped to visceralize data in my visualizations, leveraging emotion and visual minimism as D'Ignazio
+                    and Klein advocated for in <i>Data Feminism</i> (2020). I wanted interactivity and accessibility to 
+                    be a guiding principle in my project. However, I realized that the primarily visual nature of my 
+                    data would not serve those with visual disabilities well. Even with the alternative text of my images,
+                    it is only through intentional presentation of information in multiple sensory formats that I would
+                    be able to be truly accessible.
+                </p>
+                <p><br>Through this period of self-surveillance and reflection, I have learned that by removing easy 
+                    access to these sources of scrolling, I have been able to be more intentional and cognizant about 
+                    the time I spend consuming content online. Furthermore, I found that I replaced my reliance on media 
+                    platforms to fill short periods of time with Gmail. While that is more of a “productive” way to take 
+                    a break from schoolwork, it does not eliminate my reliance on electronic devices and applications. 
+                    Through the reflections I made in my daily journals, I identified the reasons behind my desire to 
+                    scroll and ways that I can practice self-control. By analyzing the themes of the content I consumed 
+                    on YouTube and the New York Times, I have a better understanding of what I like to watch and read 
+                    when I want a break from my school work. In conclusion, while this process has not fully led me to 
+                    develop temperance, I have certainly acquired knowledge about my bad desires that need controlling 
+                    and evolved my self-indulgence into continence.</p>
+            </section>
+            
+            <section class='citations'>
+                <h2>Citations</h2>
+                <p>Vallor, S. (2016). <i>Technology and the virtues: A philosophical guide to a future worth wanting</i> [eBook edition]. Oxford University Press. <a href='https://doi.org/10.1093/acprof:oso/9780190498511.003.0007'>https://doi.org/10.1093/acprof:oso/9780190498511.003.0007</a></p>
+                <br><p>D’Ignazio, C., &amp; Klein, L. (2020). 3. On Rational, Scientific, Objective Viewpoints from Mythical, Imaginary, Impossible Standpoints. In <i>Data Feminism</i>. <a href='https://data-feminism.mitpress.mit.edu/pub/5evfe9yd'>https://data-feminism.mitpress.mit.edu/pub/5evfe9yd</a></p>
+            </section>
+            
+            <section class="appendix">
+                <h2>Appendix</h2>
+                <h3>Raw Journal Entries</h3>
+                <p><b>9/25</b></p>
+                <p>I noticed that most of my media consumption happened this morning. Because it was Lake Day, I felt more relaxed and that I had “free time.” I let myself indulge in scrolling and viewing content on New York Times and YouTube. I definitely was conscious about the time I spent doing these things, so I felt that might have contributed to the single digit durations for these activities. I was so busy in the afternoon, so I didn’t have time to scroll or think about scrolling on any app. Because I’m feeling overwhelmed, I’m curious to see tomorrow’s data, as I try to get work done. Will I want to scroll more often to avoid the stressful work?</p>
+                <p><b>9/26</b></p>
+                <p>Today I noticed that I had more “free time” to do work, which also led me to scroll a bit more or have the inclination to. Because I don’t have these apps on my phone, I noticed that I mostly did these things on my laptop on the browser. Of note, in class today, I felt myself wanting to scroll through the news in order to stay awake in class. I find that the passive active reading of news would be better than just dozing off completely in class. I’m interested in what makes me choose YouTube vs New York Times vs social media as an instinct when I want to take a break.</p>
+                <p><b>9/27</b></p>
+                <p>Today was a very interesting day for data collection. I had a very hectic day, with class and then 2 hours of a job interview and then 5 hours of a student org event. Therefore, I only had two tallies related to scrolling media use. I have now noticed that for the past two days, instead of resorting to social media or some other form of content when I need to take a break, I am checking my email. I definitely want to start collecting data on the number of pickups I have for the gmail app or website on my laptop.</p>
+                <p><b>9/28</b></p>
+                <p>As expected, today had significantly more data points throughout the day. It was the weekend, and I had much more free time. I had long stretches of work time, and I found myself needing to take breaks more often. Additionally, I was on Instagram more often because of student org-related stuff. However, I noticed that it was much more intentional when I chose to go on the site. I was specifically checking messages or notifications. I think I lean more towards YouTube or NYT for breaks to consume content. I think I have found them to be more entertaining and fulfilling. I definitely noticed a lot of pickups of Gmail when I also want a break from my work. It satisfies a certain itch to be constantly deleted spam email or organize the incoming messages.</p>
+                <p><b>9/29</b></p>
+                <p>I was interested to discover today how I would manage my media consumption, as I had a lot of unscheduled free time to do my work. I definitely felt that I controlled how often I checked my gmail today after realizing how often I do it. I think it helped that I closed the tabs for my gmail accounts on my laptop, so I wouldn’t just see the notification change when I got new emails. I am curious to see if this holds up during the week when I receive many more emails. I also think my urges to find something to scroll were not as strong since I spent a lot of my time working on the phone with people in order to stay productive. Additionally, I’ve noticed that I don’t feel as satisfied scrolling through Instagram for very long. I often go on it now with a very specific intention to look at an account or when I do look at the feed, I don’t scroll for very long. I wonder if this is because the UI on the website cannot fully replicate the addictive quality of scrolling on a phone.</p>
+                <p><b>9/30</b></p>
+                <p>I surprised myself with how little I scrolled today. I had a peak in my checking of gmail between 4:30-6pm when I believed I got a few emails whose notifications were too big to miss. I feel much more intentional when I have “scrolling time” and definitely notice less of an inclination to scroll during the middle of the day. Because I feel much more pressed for time these days with my academics, I am constantly thinking about what task I can accomplish next and don’t think about the break I could get from scrolling. Reflecting on my journal entry yesterday talking about the UI on Instagram’s desktop website, I remember that when I used to have the Instagram and TikTok apps, I would spend so long, triggering the 30-minutes of scrolling notifications because of the infinite scrolling in their short-form video contents. I believe removing easy access to that by deleting my apps has been extremely helpful. I do notice that when I go to bed, I do still miss that scroll time I usually have. I found that I would do this because I would have trouble going to sleep and felt restless. I still feel that now, but I give myself some auditory stimulation through a podcast. Because of its long form content, I definitely don’t feel the same satisfaction and can still feel restless. I think the infinite scroll kept me distracted from noticing my inability to fall asleep, but in turn kept me up.</p>
+                <p><b>10/1</b></p>
+                <p>I definitely reverted to old scrolling habits today. I have finally felt less stressed and anxious after a difficult two weeks, so with this relief of my worries, I felt more relaxed and able to get restless and bored during long stretches of free time to work. This is definitely reflected in how long and often I wanted to find media to consume. I was able to feel the satisfaction of looking through Instagram a bit longer today, catching up on my friends that are far away. My urges to scroll were like an itch I had to scratch. I couldn’t talk myself out of it to do work, and I feel like I finally deserved this break to scroll after working so hard and being so stressed the past two weeks.</p>
+            </section>
+        </div>
+
+        <div class="overlay"></div>
+        <div class="modal">
+            <h2 class="modal-title"></h2>
+            <div class="modal-image"></div>
+            <div class="modal-content"></div>
+        </div>
+
+        <footer>
+            Code created with assistance from Claude AI. Visualizations created with assistance from Gemini.
+        </footer>
+
+        <script>
+            // Add floating emojis to introduction
+            const emojis = ['💻', '📱', '🖥️', '⌨️', '🖱️', '📲'];
+            const introSection = document.querySelector('.introduction');
+
+            emojis.forEach((emoji, index) => {
+                const span = document.createElement('span');
+                span.className = `floating-emoji ${index % 2 === 0 ? 'emoji-left' : 'emoji-right'}`;
+                span.style.top = `${(index * 100) + 50}px`;
+                span.textContent = emoji;
+                introSection.appendChild(span);
+            });
+            
+            const circles = document.querySelectorAll('.circle');
+            const questionText = document.querySelector('.question-text');
+            const sizeExplanation = document.querySelector('.size-explanation');
+            const modal = document.querySelector('.modal');
+            const overlay = document.querySelector('.overlay');
+            const modalTitle = document.querySelector('.modal-title');
+            const facebook = document.querySelector('.facebook');
+            const instagram = document.querySelector('.instagram');
+            const visualizationSection = document.querySelector('.visualization-section');
+            const visualizationTitle = document.querySelector('.visualization-title');
+            const youtube = document.querySelector('.circle.youtube');
+            const nytimes = document.querySelector('.circle.nytimes');
+            const modalImage = document.querySelector('.modal-image');
+            const modalContent = document.querySelector('.modal-content');
+            const part1Explanation = document.querySelector('.part1-explanation');
+
+            const initialScale = 25/150;
+            const scales = {
+                youtube: (66.48/5.26) * initialScale,
+                facebook: initialScale,
+                instagram: (37.67/5.26) * initialScale,
+                nytimes: (21.61/5.26) * initialScale
+            };
+
+            let currentPhase = 0;
+            let lastPhase = 0;
+
+            window.addEventListener('scroll', () => {
+                const sectionRect = visualizationSection.getBoundingClientRect();
+                const sectionProgress = -sectionRect.top / (sectionRect.height - window.innerHeight);
+                
+                if (sectionProgress < 0 || sectionProgress > 1) {
+                    // Reset to initial state when outside the visualization section
+                    if (currentPhase !== 0) {
+                        currentPhase = 0;
+                        circles.forEach(circle => {
+                            circle.style.transform = 'scale(1)';
+                            circle.style.opacity = '1';
+                            circle.classList.remove('clickable');
+                        });
+                        visualizationTitle.style.opacity = '0';
+                        questionText.style.opacity = '0';
+                        sizeExplanation.style.opacity = '0';
+                        part1Explanation.style.opacity = '0'; 
+                    }
+                    return;
+                }
+
+                if (sectionProgress < 0.33) { // Phase 1
+                    if (currentPhase !== 1) {
+                        currentPhase = 1;
+                        circles.forEach(circle => {
+                            circle.style.transform = `scale(${scales[circle.classList[1]]})`;
+                            circle.style.opacity = '1';
+                            circle.classList.remove('clickable');
+                        });
+                        visualizationTitle.style.opacity = '1';
+                        questionText.style.opacity = '0';
+                        sizeExplanation.style.opacity = '1';
+                        part1Explanation.style.opacity = '1'; 
+                    }
+                } else if (sectionProgress < 0.66) { // Phase 2
+                    if (currentPhase !== 2) {
+                        currentPhase = 2;
+                        circles[0].style.transform = 'scale(1) translateX(160px)';
+                        circles[3].style.transform = 'scale(1) translateX(-160px)';
+                        facebook.style.opacity = '0';
+                        instagram.style.opacity = '0';
+                        visualizationTitle.style.opacity = '0';
+                        sizeExplanation.style.opacity = '0';
+                        questionText.style.opacity = '1';
+                        part1Explanation.style.opacity = '0'; 
+                        
+                        // Add clickable class for hover effect
+                        youtube.classList.add('clickable');
+                        nytimes.classList.add('clickable');
+                    }
+                } else { // Phase 3
+                    if (currentPhase !== 3) {
+                        currentPhase = 3;
+                        // Keep the two-circle state from phase 2
+                    }
+                }
+                
+                lastPhase = currentPhase;
+            });
+
+            circles[0].addEventListener('click', () => {
+                if (currentPhase >= 2) {
+                    modal.style.display = 'block';
+                    overlay.style.display = 'block';
+                    modalTitle.textContent = 'YouTube';
+                    modalImage.innerHTML = "<img src='graphs/yt_data.png' alt='A bar chart of the categories of YouTube videos watched from 08/12/2024 to 10/02/2024. The x axis is category. The y-axis is count. The Educational & Information category has 20 videos. The Entertainment & Celebrity category has 103 videos. The Food & Cooking category has 3 videos. The Lifestyle & Vlogs category has 29 videos. The Other vategory has 4 videos. Sports & Fitness has 11 videos. TV Shows & Movies has 94 videos.' width='500px'>";
+                    modalContent.innerHTML = "We can see that the large majority of videos I watch are in both the Entertainment & Celebrity and TV Shows & Movies categories. My YouTube home feed is filled with movie trailers and clips or behind-the-scenes / promotional content for tv shows and movies. Thus, when I go on YouTube, I immediately open and watch all of the videos that look entertaining on the home feed. The next largest category is Lifestyle & Vlogs. These videos belong to the channels that I am subscribed to. They or related content sometimes show up on my home feed. However, those videos tend to be longer form content, so I often just end up saving them in my Watch Later. As described, my YouTube watching habits lack a sense of intentionality. While I may have developed a level of intentionality in my decision to scroll and access these media platforms, I can move towards intentionality in the content I consume. I rarely go on YouTube to search for a particular video. Perhaps I can utilize push notifications for the channels I like to watch in order to reduce the amount of times I access YouTube with no plan. Therefore, I can make the time for longer form content and watch more intentionally."
+                }
+            });
+
+            circles[3].addEventListener('click', () => {
+                if (currentPhase >= 2) {
+                    modal.style.display = 'block';
+                    overlay.style.display = 'block';
+                    modalTitle.textContent = 'The New York Times';
+                    modalImage.innerHTML = "<img src='graphs/nyt_data.png' alt='A bar chart of the categories of NYT websites Visited from 07/13/2024 to 10/04/2024. The x axis is category. The y-axis is Total Visit Count. The Business & Economics category has 2 visits. Culture has 54 visits. Health & Science has 4 visits. NYT Games has 242 visits. Opinion has 4 visits. Other has 11 visits. Politics has 19 visits. Sports has 6 visits. Technology has 1 visit. Wirecutter has 36 visits. World News has 91 visits.' width='500px'>";
+                    modalContent.innerHTML = "We can see that the overwhelming majority of my visits to the New York Times websites is to play one of their games: Wordle, Connections, the Mini, or Strands. These games are my go-to fallback when I need a break from my studies, and I often play them with a friend over FaceTime. The next few categories of articles that I often read are World News, Culture, then Wirecutter. When I am perusing the articles on The New York Times, I enjoy reading the headlines to be caught up on what is going on in the world around me. However, I am most inclined to thoroughly read articles on world news and culture specifically. As a consumer who often window-shops as opposed to buying, Wirecutter introduces me to new products that I like to save for the future. As opposed to YouTube, the content I consume on The New York Times feels a lot more intentional as a written form of content. It feels like more of an active form of consumption when I read and process information, as opposed to the passivity of watching and listening to a video."
+                }
+            });
+
+            overlay.addEventListener('click', () => {
+                modal.style.display = 'none';
+                overlay.style.display = 'none';
+            });
+            
+            // Add arrow to bottom left
+            const arrowContainer = document.createElement('div');
+            arrowContainer.className = 'arrow-container';
+            arrowContainer.innerHTML = `
+                <img src="images/arrowDown.png" alt="Scroll down arrow">
+            `;
+            document.body.appendChild(arrowContainer);
+        </script>
+    </body>
+</html>
